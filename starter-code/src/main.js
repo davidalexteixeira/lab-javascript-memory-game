@@ -27,6 +27,8 @@ var cards = [
 
 $(document).ready(function(){
   var memoryGame = new MemoryGame(cards);
+  memoryGame.finished()
+  memoryGame.shuffleCard(cards);
   var html = '';
   memoryGame.cards.forEach(function (pic, index) {
     html += '<div class= "card" id="card_' + pic.name + '">';
@@ -42,9 +44,52 @@ $(document).ready(function(){
   // Add all the div's to the HTML
   document.getElementById('memory_board').innerHTML = html;
   // Bind the click event of each element to a function
-$('.back').on('click', function () {
-   
-});
-});
+  let count = 0;
+  let card1;
+  let card2;
+  let card1Attribute;
+  let card2Attribute;
+  let isEnabled = true
 
+  $('.back').on('click', function (e) {
+    if (!isEnabled) return
 
+    $(this).toggleClass('back-hide')
+    $(this).siblings().addClass('front-show');
+
+    if (count === 0) {
+      //first click save card 1
+      card1 = $(this).parent().attr('id');
+      card1Attribute = $(this).parent();
+      count++;
+    } else {
+       // second click saves card 2
+      card2 = $(this).parent().attr('id'); 
+      card2Attribute = $(this).parent();
+      count++;
+    } 
+
+    if (count === 2) {
+      isEnabled = false
+
+      if (memoryGame.checkIfPair(card1, card2)) {
+        setTimeout(()=>{
+          card1Attribute.toggleClass('remove-card');
+          card2Attribute.toggleClass('remove-card');
+          isEnabled = true
+        }, 1000)
+        count = 0;
+      } else {
+        setTimeout(()=>{
+          card1Attribute.children().removeClass('back-hide front-show');
+          card2Attribute.children().removeClass('back-hide front-show');
+          count = 0;
+          isEnabled = true
+        }, 1000)
+      }
+    }
+
+    document.getElementById('pairs_clicked').innerHTML = memoryGame.pairsClicked;
+    document.getElementById('pairs_guessed').innerHTML = memoryGame.pairsGuessed;   
+  });
+});

@@ -107,7 +107,7 @@ describe('finished method', function () {
   });
 
   it('It should return false at the beggining of the game', function () {
-    let memoryGame = new MemoryGame([])
+    let memoryGame = new MemoryGame([0,1,2])
     expect(memoryGame.finished()).toBe(false);
   });
 

@@ -24,9 +24,26 @@ html {
 	padding:20px;
 	font-size:64px;
 }
+
+.back-hide {
+  display: none;
+}
 .card .front.blocked,
 .card .back.blocked {
   pointer-events: none;
+}
+
+.front-show {
+  width:71px;
+	height:71px;
+  margin:10px;
+  float: left;
+	padding:20px;
+  font-size:64px;
+}
+
+.remove-card {
+  opacity: 0;
 }
 
 #score {
